@@ -1,6 +1,6 @@
 # spotify-web-api-js-poc
 
-This is a proof of concept for aa universal JS wrapper for the Spotify Web API
+This is a proof of concept for a universal JS wrapper for the Spotify Web API.
 
 ## Why
 
