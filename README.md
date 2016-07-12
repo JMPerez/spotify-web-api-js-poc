@@ -24,7 +24,7 @@ Even if you just want to search for tracks, your code will contain functions to 
 
 ## How
 
-I have been using ES2015 these last weeks and I enjoyed both its syntax and the way to export certain parts of a module. By using tree-shaking (some people prefer calling this [dead code elimination](https://medium.com/@Rich_Harris/tree-shaking-versus-dead-code-elimination-d3765df85c80)) we can generate a bundle that only contains the `import`ed functions for the needed endpoints.
+I have been using ES2015 these last weeks and I enjoyed both its syntax and the way to export certain parts of a module. By using tree-shaking (some people prefer calling this [dead code elimination](https://medium.com/@Rich_Harris/tree-shaking-versus-dead-code-elimination-d3765df85c80)) we can generate a bundle that only contains the `import`ed functions for the needed endpoints. Even better, exported functions names [can be further optimised thanks to mangling](https://gist.github.com/sokra/27b24881210b56bbaff7#es6-export-mangling).
 
 Last, but not least, by decoupling the request configurator from the actual function that makes the request we gain testability and flexibility. First, because most of the functions not need to mock the `XMLHttpRequest` or equivalent object. Second, because the consumer of the API can always provide a different "request maker" with custom logic to trigger some events, refresh tokens, log some info, etc.
 
