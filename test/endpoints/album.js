@@ -1,5 +1,5 @@
 import 'should';
-import * as Album from '../../lib/endpoints/album';
+import { getAlbum } from '../../lib/endpoints/album';
 
 describe('Album', function() {
   it('Should fetch an album', function(done) {
@@ -10,7 +10,7 @@ describe('Album', function() {
       send: function() { return Promise.resolve({body: ''}); }
     };
 
-    Album.getAlbum(req, 'abc').then(data => {
+    getAlbum(req, 'abc').then(data => {
       data.body.should.equal('');
       done();
     }).catch(e => console.error(e));
