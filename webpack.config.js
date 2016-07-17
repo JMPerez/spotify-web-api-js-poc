@@ -1,7 +1,7 @@
 module.exports = {
   entry: "./lib/server.js",
   output: {
-    filename: "webpack-node-fetch.js"
+    filename: "webpack-poc.js"
   },
   module : {
     loaders: [{

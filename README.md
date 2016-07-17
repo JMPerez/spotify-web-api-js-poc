@@ -1,8 +1,8 @@
-# spotify-web-api-js-poc
+# Spotify Web API JS (Proof of Concept)
 
-This is a proof of concept for a universal JS wrapper for the Spotify Web API.
+This is a proof of concept for a universal JS wrapper for the Spotify Web API. It is written using ES6 and strives for minimum size when used with bundlers that support tree-shaking.
 
-The library is still under development and haven't been published to npm yet.
+The library is still under development and hasn't been published to npm yet.
 
 ## Usage
 
@@ -38,7 +38,7 @@ getAlbum(requestBuilder, '7dNZmdcPLsUh929GLnvvsU')
 
 ### Advanced
 
-In some cases we might want to run some custom logic, like retrying a request if the token has expired. You can create your own `Request` to handle this:
+In some cases you might want to run some custom logic, like retrying a request if the token has expired. You can create your own `Request` to handle this:
 
 ```js
 import { RequestBuilder, Request } from 'spotify-web-api-js-poc';
@@ -50,7 +50,7 @@ class MyRequest extends Request {
       super.send()
         .then(d => resolve(d))
         .catch(e => {
-          if (e.statusCode === '409') {
+          if (e.statusCode === 409) {
             // refresh...
             // retry...
             // either resolve or reject the promise
@@ -65,6 +65,22 @@ getAlbum(requestBuilder, '7dNZmdcPLsUh929GLnvvsU')
   .then(result => console.log(result))
   .catch(error => console.error(error));
 ```
+
+## Instructions to develop
+
+Clone the package and install the npm dependencies with `npm i`.
+
+### Generating the output
+
+If you install webpack globally, run `webpack` to generate the bundle for the browser.
+
+### Running tests
+
+Run `npm test`
+
+### Linting
+
+Run `npm run lint`
 
 ## Why
 
