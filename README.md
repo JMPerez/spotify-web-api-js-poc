@@ -2,6 +2,70 @@
 
 This is a proof of concept for a universal JS wrapper for the Spotify Web API.
 
+The library is still under development and haven't been published to npm yet.
+
+## Usage
+
+### Basic
+
+You can import the library and the endpoints to start using them:
+
+```js
+// easy, but you will end up with lots of unneeded code
+import * as SpotifyApi from 'spotify-web-api-js-poc';
+import * as SpotifyApiEndpoints from 'spotify-web-api-js-poc/endpoints';
+
+const requestBuilder = new SpotifyApi.RequestBuilder();
+
+SpotifyApiEndpoints.Album.getAlbum(requestBuilder, '7dNZmdcPLsUh929GLnvvsU')
+  .then(result => console.log(result))
+  .catch(error => console.error(error));
+```
+
+If you are only using a few of the endpoints, which is the most usual case, import only what you need:
+
+```js
+// way better now!
+import { RequestBuilder } from 'spotify-web-api-js-poc';
+import { getAlbum } from 'spotify-web-api-js-poc/endpoints/album';
+
+const requestBuilder = new RequestBuilder();
+
+getAlbum(requestBuilder, '7dNZmdcPLsUh929GLnvvsU')
+  .then(result => console.log(result))
+  .catch(error => console.error(error));
+```
+
+### Advanced
+
+In some cases we might want to run some custom logic, like retrying a request if the token has expired. You can create your own `Request` to handle this:
+
+```js
+import { RequestBuilder, Request } from 'spotify-web-api-js-poc';
+import { getAlbum } from 'spotify-web-api-js-poc/endpoints/album';
+
+class MyRequest extends Request {
+  send() {
+    return new Promise((resolve, reject) =>
+      super.send()
+        .then(d => resolve(d))
+        .catch(e => {
+          if (e.statusCode === '409') {
+            // refresh...
+            // retry...
+            // either resolve or reject the promise
+          }
+        })
+      );
+  }
+}
+
+const requestBuilder = new RequestBuilder(MyRequest);
+getAlbum(requestBuilder, '7dNZmdcPLsUh929GLnvvsU')
+  .then(result => console.log(result))
+  .catch(error => console.error(error));
+```
+
 ## Why
 
 I have previously worked on [a client-side JS wrapper](https://github.com/JMPerez/spotify-web-api-js) and [a Node.JS one](https://github.com/thelinmichael/spotify-web-api-node). They work great, but they have some limitations in their current shape:
@@ -43,7 +107,7 @@ export const searchTrack = (req, query) =>
       })
       .send();
 
-export const searchAlbum = (req, query) => 
+export const searchAlbum = (req, query) =>
   req.build()
       .withUri('/search')
       .addQueryParameters({
